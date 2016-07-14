@@ -277,8 +277,22 @@ public class QRCode: NSObject, AVCaptureMetadataOutputObjectsDelegate {
     lazy var previewLayer: AVCaptureVideoPreviewLayer = {
         let layer = AVCaptureVideoPreviewLayer(session: self.session)
         layer.videoGravity = AVLayerVideoGravityResizeAspectFill
+        
+        let orientation = UIApplication.sharedApplication().statusBarOrientation
+        switch orientation {
+        case .Portrait:
+            layer.connection.videoOrientation = .Portrait
+        case .PortraitUpsideDown:
+            layer.connection.videoOrientation = .PortraitUpsideDown
+        case .LandscapeLeft:
+            layer.connection.videoOrientation = .LandscapeLeft
+        case .LandscapeRight:
+            layer.connection.videoOrientation = .LandscapeRight
+        default: break
+        }
+        
         return layer
-        }()
+    }()
     
     /// drawLayer
     lazy var drawLayer = CALayer()
